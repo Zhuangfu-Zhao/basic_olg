@@ -176,17 +176,18 @@ class OLG_benchmark:
 
     def get_SteadyState(self): 
 
-        for _ in range(self.itermax):
+        for it_num in range(self.itermax):
             self._prices(0)
             self._decisions(0)
             self._aggregations(0) 
             self._government(0)
             if(abs(self.YY[0] - self.CC[0] - self.II[0] - self.GG[0])/self.YY[0] < self.tol):
+                print(f"get_SteadyState: convergence achieved at iteration {it_num}.")
                 break 
     
     def get_Transition(self): 
 
-        for _ in range(self.itermax): # Gauss-Seidel iteration (since the model is forward-looking, we need to iterate KK[:] as a whole)
+        for it_num in range(self.itermax): # Gauss-Seidel iteration (since the model is forward-looking, we need to iterate KK[:] as a whole)
 
             for it in range(1, self.TT+1): 
                 self._prices(it) 
@@ -203,6 +204,7 @@ class OLG_benchmark:
                     n_market = n_market + 1 
             
             if(n_market == self.TT): 
+                print(f"get_Transition: convergence achieved at iteration {it_num}.")
                 break   
     
     def plot_cohort_consumption(self, figsize: tuple = (10, 4), save_path: Optional[str] = None):
